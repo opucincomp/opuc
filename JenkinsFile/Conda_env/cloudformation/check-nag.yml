@@ -7,10 +7,6 @@ Parameters:
     Type: String
     Description: Application name used across all stacks
 
-  TemplatePath:
-    Type: String
-    Description: ETL CICD Artifacts Store Bucket Path
-
   Environment:
     Type: String
     Description: Name of the Env
@@ -30,6 +26,10 @@ Parameters:
   TargetEndpointArnCDCFullLoad:
     Type: String
     Description: An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
+
+  TemplatePath:
+    Type: String
+    Description: ETL CICD Artifacts Store Bucket Path
 
 Conditions:
   DeployTestStage: !Or
@@ -59,10 +59,6 @@ Conditions:
         - Ref: Environment
         - preprod
 
-  IsTestEnvironment: !Equals
-    - Ref: Environment
-    - test
-
   IsSanboxDevTestEnviornment: !Or
     - "Fn::Equals":
         - Ref: Environment
@@ -74,27 +70,31 @@ Conditions:
         - Ref: Environment
         - test
 
+  IsTestEnvironment: !Equals
+    - Ref: Environment
+    - test
+
 Resources:
   CDCTaskStack:
     Type: "AWS::CloudFormation::Stack"
     Condition: DeployTestStage
     Properties:
       Parameters:
+        ApplicationName: !Ref ApplicationName
+        Environment: !Ref Environment
         ReplicationInstanceArn: !Ref ReplicationInstanceArn
         SourceEndpointArn: !Ref SourceEndpointArn
         TargetEndpointArn: !Ref TargetEndpointArn
-        Environment: !Ref Environment
-        ApplicationName: !Ref ApplicationName
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/migration-task/migration-task-cdc.yml"
-    
+
   FullLoadCDCTaskStack:
     Type: "AWS::CloudFormation::Stack"
     Condition: DeployTestStage
     Properties:
       Parameters:
+        ApplicationName: !Ref ApplicationName
+        Environment: !Ref Environment
         ReplicationInstanceArn: !Ref ReplicationInstanceArn
         SourceEndpointArn: !Ref SourceEndpointArn
         TargetEndpointArn: !Ref TargetEndpointArnCDCFullLoad
-        Environment: !Ref Environment
-        ApplicationName: !Ref ApplicationName
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/migration-task/migration-task-cdc-full-load.yml"
