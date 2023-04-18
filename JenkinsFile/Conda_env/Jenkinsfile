@@ -7,18 +7,16 @@ pipeline {
                 cd  ~/miniconda3/etc/profile.d/
                 source ./conda.sh
                 cd /root/miniconda3/bin/
-                ./conda create -n py39 python=3.9 pip -y'''
+                ./conda create -n py39 python=3.9 pip -y
+                ./conda install -c conda-forge ruby
+                ./conda activate py39'''
             }
         }
         stage('Run Tests') {
             parallel {
                 stage('Run Cfn-lint') {
                     steps {
-                        sh ''' cd  ~/miniconda3/etc/profile.d/
-                        source ./conda.sh
-                        cd /root/miniconda3/bin/
-                        ./conda create -n py39 python=3.9 pip -y
-                        ./conda activate py39
+                        sh '''
                         pip install cfn-lint
                         cfn-lint /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
                         ./conda deactivate'''
@@ -26,12 +24,7 @@ pipeline {
                 }
                 stage('Run cfn-nag') {
                     steps {
-                        sh ''' cd  ~/miniconda3/etc/profile.d/
-                        source ./conda.sh
-                        cd /root/miniconda3/bin/
-                        ./conda create -n py39 python=3.9 pip -y
-                        ./conda activate py39
-                        ./conda install -c conda-forge ruby
+                        sh '''
                         ruby -v
                         gem install cfn-nag
                         cfn_nag_scan -i /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
