@@ -1,34 +1,34 @@
 pipeline {
     agent any
     stages {
-        stage('Conda create env') {
-            steps {
-                sh '''ls -lrt
-                cd  ~/miniconda3/etc/profile.d/
-                source ./conda.sh
-                cd /root/miniconda3/bin/
-                ./conda create -n py39 python=3.9 pip -y
-                conda install -c conda-forge ruby
-                conda activate py39'''
-            }
-        }
         stage('Run Tests') {
             parallel {
                 stage('Run Cfn-lint') {
                     steps {
-                        sh '''
+                        sh '''cd  ~/miniconda3/etc/profile.d/
+                        source ./conda.sh
+                        cd /root/miniconda3/bin/
+                        ./conda create -n py39 python=3.9 pip -y
+                        conda activate py39
                         pip install cfn-lint
                         cfn-lint /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
+                        conda deactivate
                         '''
                     }
                 }
                 stage('Run cfn-nag') {
                     steps {
-                        sh '''
+                        sh '''ls -lrt
+                        cd  ~/miniconda3/etc/profile.d/
+                        source ./conda.sh
+                        cd /root/miniconda3/bin/
+                        ./conda create -n cfn-nag-test python=3.9 pip -y
+                        conda install -c conda-forge ruby
+                        conda activate cfn-nag-test
                         ruby -v
                         gem install cfn-nag
                         cfn_nag_scan -i /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
-                        ./conda deactivate'''
+                        conda deactivate'''
                     }
                 }
             }
