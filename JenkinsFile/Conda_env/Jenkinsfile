@@ -6,13 +6,13 @@ pipeline {
                 stage('Run Cfn-lint') {
                     steps {
                         sh '''cd  ~/miniconda3/etc/profile.d/
-                        source ./conda.sh >> /dev/null 2>&1  
+                        source ./conda.sh   
                         cd /root/miniconda3/bin/
-                        ./conda create -n py39 python=3.9 pip -y >> /dev/null 2>&1  
-                        conda activate py39 >> /dev/null 2>&1  
+                        ./conda create -n py39 python=3.9 pip -y   
+                        conda activate py39   
                         pip install cfn-lint
                         cfn-lint /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml -i W
-                        conda deactivate >> /dev/null 2>&1  
+                        conda deactivate   
                         '''
                     }
                 }
@@ -20,15 +20,15 @@ pipeline {
                     steps {
                         sh '''ls -lrt
                         cd  ~/miniconda3/etc/profile.d/
-                        source ./conda.sh >> /dev/null 2>&1  
+                        source ./conda.sh   
                         cd /root/miniconda3/bin/
-                        ./conda create -n cfn-nag-test python=3.9 pip -y >> /dev/null 2>&1  
-                        conda activate cfn-nag-test >> /dev/null 2>&1  
+                        ./conda create -n cfn-nag-test python=3.9 pip -y   
+                        conda activate cfn-nag-test   
                         conda install -c conda-forge ruby
                         ruby -v
                         gem install cfn-nag
                         cfn_nag_scan -i /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
-                        conda deactivate >> /dev/null 2>&1  '''
+                        conda deactivate   '''
                     }
                 }
                 stage('Run cfn-format') {
