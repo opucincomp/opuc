@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Conda create env') {
             steps {
-                sh '
-                ls -lrt
+                sh 'ls -lrt
                 cd  ~/miniconda3/etc/profile.d/
                 source ./conda.sh
                 cd /root/miniconda3/bin/
