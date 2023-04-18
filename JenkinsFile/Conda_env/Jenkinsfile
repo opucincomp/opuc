@@ -31,6 +31,11 @@ pipeline {
                         conda deactivate >> /dev/null 2>&1  '''
                     }
                 }
+                stage('Run cfn-format') {
+                    steps {
+                        sh '''./JenkinsFile/Conda_env/tools/cfn-format -v JenkinsFile/Conda_env/cloudformation/check-nag.yml'''
+                    }
+                }
             }
         }
     }
