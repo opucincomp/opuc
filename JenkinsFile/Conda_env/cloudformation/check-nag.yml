@@ -35,7 +35,7 @@ Conditions:
   DeployTestStage: !Or
     - "Fn::Equals":
         - Ref: Environment
-        - dlgsbox
+        - sandsbox
     - "Fn::Equals":
         - Ref: Environment
         - dev
@@ -49,7 +49,7 @@ Conditions:
         - dev
     - "Fn::Equals":
         - Ref: Environment
-        - dlgsbox
+        - sandsbox
 
   IsProdEnvironment: !Or
     - "Fn::Equals":
@@ -69,7 +69,7 @@ Conditions:
         - dev
     - "Fn::Equals":
         - Ref: Environment
-        - dlgsbox
+        - sandsbox
     - "Fn::Equals":
         - Ref: Environment
         - test
