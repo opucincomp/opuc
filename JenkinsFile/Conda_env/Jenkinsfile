@@ -3,32 +3,32 @@ pipeline {
     stages {
         stage('Conda create env') {
             steps {
-                sh 'ls -lrt
+                sh '''ls -lrt
                 cd  ~/miniconda3/etc/profile.d/
                 source ./conda.sh
                 cd /root/miniconda3/bin/
-                ./conda create -n py39 python=3.9 pip -y'
+                ./conda create -n py39 python=3.9 pip -y'''
             }
         }
         stage('Run Tests') {
             parallel {
                 stage('Run Cfn-lint') {
                     steps {
-                        sh 'cd /root/miniconda3/bin/
+                        sh '''cd /root/miniconda3/bin/
                         conda activate py39
                         pip install cfn-lint
                         cfn-lint /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
-                        conda deactivate'
+                        conda deactivate'''
                     }
                 }
                 stage('Run cfn-nag') {
                     steps {
-                        sh 'conda activate py39
+                        sh '''conda activate py39
                         conda install -c conda-forge ruby
                         ruby -v
                         gem install cfn-nag
                         cfn_nag_scan -i /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
-                        conda deactivate'
+                        conda deactivate'''
                     }
                 }
             }
