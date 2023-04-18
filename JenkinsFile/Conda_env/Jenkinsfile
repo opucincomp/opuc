@@ -5,9 +5,9 @@ pipeline {
             parallel {
                 stage('Run Cfn-lint') {
                     steps {
-                        sh '''cd  ~/ anaconda3/etc/profile.d/
+                        sh '''cd  ~/anaconda3/etc/profile.d/
                         source ./conda.sh   
-                        cd /root/ anaconda3/bin/
+                        cd /root/anaconda3/bin/
                         ./conda create -n py39 python=3.9 pip -y   
                         conda activate py39   
                         pip install cfn-lint
@@ -19,9 +19,9 @@ pipeline {
                 stage('Run cfn-nag') {
                     steps {
                         sh '''ls -lrt
-                        cd  ~/ anaconda3/etc/profile.d/
+                        cd  ~/anaconda3/etc/profile.d/
                         source ./conda.sh   
-                        cd /root/ anaconda3/bin/
+                        cd /root/anaconda3/bin/
                         ./conda create -n cfn-nag-test python=3.9 pip -y   
                         conda activate cfn-nag-test   
                         conda install -c conda-forge ruby
