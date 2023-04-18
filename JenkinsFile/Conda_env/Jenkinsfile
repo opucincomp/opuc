@@ -23,8 +23,8 @@ pipeline {
                         source ./conda.sh
                         cd /root/miniconda3/bin/
                         ./conda create -n cfn-nag-test python=3.9 pip -y
-                        conda install -c conda-forge ruby
                         conda activate cfn-nag-test
+                        conda install -c conda-forge ruby
                         ruby -v
                         gem install cfn-nag
                         cfn_nag_scan -i /root/opuc/opuc/JenkinsFile/Conda_env/cloudformation/check-nag.yml
