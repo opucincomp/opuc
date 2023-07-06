@@ -41,7 +41,7 @@ pipelineJob('job7') {
       script(job7)
     }
   }
-
+}
 
 // load("${WORKSPACE}/dsl/src/job1.groovy")
 // load("${WORKSPACE}/dsl/src/job2.groovy")
