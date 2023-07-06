@@ -7,6 +7,8 @@ def job6 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job6.groovy")
 def job7 = readFileFromWorkspace("${WORKSPACE}/JenkinsFile/Conda_env/Jenkinsfile")
 def job8 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job8.groovy")
 
+def jobPrefix = 'test-112'
+
 job('job1') {
       job1
 }
@@ -83,6 +85,23 @@ pipelineJob('job10') {
 }
 
 pipelineJob('job11') {
+    definition {
+    cpsScm {
+      scm {
+        git {
+          remote {
+            url("https://github.com/opucincomp/opuc.git")
+            credentials("githubcreds")
+          }
+          branch('*/master')
+        }
+      }
+      scriptPath("JenkinsFile/Conda_env/Jenkinsfile")
+    }
+  }
+}
+
+pipelineJob("${jobPrefix}-job1-defination-test") {
     definition {
     cpsScm {
       scm {
