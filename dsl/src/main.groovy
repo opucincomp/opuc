@@ -17,7 +17,7 @@ pipelineJob('job3'){
     job3
 }
 
-pipelineJob('job5'){
+job('job5'){
     job5
 }
 
