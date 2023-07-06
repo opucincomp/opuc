@@ -1,6 +1,6 @@
 definition {
     cps {
-        script(readFileFromWorkspace("${WORKSPACE}/Conda_env/JenkinsFile"))
+        script(readFileFromWorkspace("${WORKSPACE}/JenkinsFile/Conda_env/JenkinsFile"))
         sandbox() 
     }
 }
