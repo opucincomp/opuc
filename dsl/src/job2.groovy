@@ -1,5 +1,3 @@
-job('Job-2') {
-  steps {
+steps {
     shell('echo Hello from Job-2')
-  }
 }
