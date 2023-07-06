@@ -82,5 +82,22 @@ pipelineJob('job10') {
   }
 }
 
+pipelineJob('job11') {
+    definition {
+    cpsScm {
+      scm {
+        git {
+          remote {
+            url("https://github.com/opucincomp/opuc.git")
+            credentials("githubcreds")
+          }
+          branch('*/master')
+        }
+      }
+      scriptPath("JenkinsFile/Conda_env/Jenkinsfile")
+    }
+  }
+}
+
 // load("${WORKSPACE}/dsl/src/job1.groovy")
 // load("${WORKSPACE}/dsl/src/job2.groovy")
