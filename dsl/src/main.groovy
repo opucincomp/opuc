@@ -1,5 +1,5 @@
-def job1 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job1.groovy").text
-def job2 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job2.groovy").text
+def job1 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job1.groovy")
+def job2 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job2.groovy")
 
 
 job('job1') {
