@@ -44,7 +44,7 @@ pipelineJob('job7') {
   }
 }
 
-pipelineJob('job6') {
+pipelineJob('job8') {
     job8
 }
 
