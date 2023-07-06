@@ -4,6 +4,7 @@ def job3 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job3.groovy")
 def job4 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job4-pipeline.groovy")
 def job5 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job5.groovy")
 def job6 = readFileFromWorkspace("${WORKSPACE}/dsl/src/job6.groovy")
+def job7 = readFileFromWorkspace("${WORKSPACE}/JenkinsFile/Conda_env/JenkinsFile")
 
 job('job1') {
       job1
@@ -32,6 +33,15 @@ job('job6') {
     shell(job6)
   }
 }
+
+
+pipelineJob('job7') {
+  definition {
+    cps {
+      script(job7)
+    }
+  }
+
 
 // load("${WORKSPACE}/dsl/src/job1.groovy")
 // load("${WORKSPACE}/dsl/src/job2.groovy")
