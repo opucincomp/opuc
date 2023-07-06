@@ -16,8 +16,8 @@ pipelineJob('job3'){
     job3
 }
 
-pipelineJob('job4-pipeline'){
-    job4
-}
+
+job4
+
 // load("${WORKSPACE}/dsl/src/job1.groovy")
 // load("${WORKSPACE}/dsl/src/job2.groovy")
