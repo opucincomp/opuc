@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Run Tests') {
+        //stage('Run Tests') {
             //parallel {
                 stage('Run Cfn-lint') {
                     steps {
@@ -40,6 +40,6 @@ pipeline {
                     }
                 }
             //}
-        }
+        //}
     }
 }
