@@ -6,7 +6,7 @@ pipeline {
                 sh """
                 conda remove -n run-py-env --all -y
                 conda env create -f JenkinsFile/conda_env_file/env/env.yml 
-                conda run -n run-py-env python test.py
+                conda run -n run-py-env python JenkinsFile/conda_env_file/test.py
                 conda remove -n run-py-env --all -y
                 """
             }
