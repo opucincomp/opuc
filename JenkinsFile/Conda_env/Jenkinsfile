@@ -5,7 +5,9 @@ pipeline {
             parallel {
                 stage('Run Cfn-lint') {
                     steps {
-                        sh '''cd  ~/anaconda3/etc/profile.d/
+                        sh '''
+                        conda env remove --name py39
+                        cd  ~/anaconda3/etc/profile.d/
                         source ./conda.sh   
                         cd /root/anaconda3/bin/
                         ./conda create -n py39 python=3.9 pip -y   
@@ -18,7 +20,9 @@ pipeline {
                 }
                 stage('Run cfn-nag') {
                     steps {
-                        sh '''ls -lrt
+                        sh '''
+                        conda env remove --name cfn-nag-test 
+                        ls -lrt
                         cd  ~/anaconda3/etc/profile.d/
                         source ./conda.sh   
                         cd /root/anaconda3/bin/
