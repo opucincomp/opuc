@@ -1,0 +1,100 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: CI/CD pipeline for ETL Layer - Pet Curation
+
+Parameters:
+  ApplicationName:
+    Type: String
+    Description: Application name used across all stacks
+
+  Environment:
+    Type: String
+    Description: Name of the Env
+
+  ReplicationInstanceArn:
+    Type: String
+    Description: The Amazon Resource Name (ARN) of a replication instance.
+
+  SourceEndpointArn:
+    Type: String
+    Description: An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
+
+  TargetEndpointArn:
+    Type: String
+    Description: An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
+
+  TargetEndpointArnCDCFullLoad:
+    Type: String
+    Description: An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
+
+  TemplatePath:
+    Type: String
+    Description: ETL CICD Artifacts Store Bucket Path
+
+Conditions:
+  DeployTestStage: !Or
+    - "Fn::Equals":
+        - Ref: Environment
+        - sandsbox
+    - "Fn::Equals":
+        - Ref: Environment
+        - dev
+    - "Fn::Equals":
+        - Ref: Environment
+        - test
+
+  IsDevOrSandboxEnvironment: !Or
+    - "Fn::Equals":
+        - Ref: Environment
+        - dev
+    - "Fn::Equals":
+        - Ref: Environment
+        - sandsbox
+
+  IsProdEnvironment: !Or
+    - "Fn::Equals":
+        - Ref: Environment
+        - prod
+    - "Fn::Equals":
+        - Ref: Environment
+        - preprod
+
+  IsSanboxDevTestEnviornment: !Or
+    - "Fn::Equals":
+        - Ref: Environment
+        - dev
+    - "Fn::Equals":
+        - Ref: Environment
+        - sandsbox
+    - "Fn::Equals":
+        - Ref: Environment
+        - test
+
+  IsTestEnvironment: !Equals
+    - Ref: Environment
+    - test
+
+Resources:
+  CDCTaskStack:
+    Type: "AWS::CloudFormation::Stack"
+    Condition: DeployTestStage
+    Properties:
+      Parameters:
+        ApplicationName: !Ref ApplicationName
+        Environment: !Ref Environment
+        ReplicationInstanceArn: !Ref ReplicationInstanceArn
+        SourceEndpointArn: !Ref SourceEndpointArn
+        TargetEndpointArn: !Ref TargetEndpointArn
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/migration-task/migration-task-cdc.yml"
+
+  FullLoadCDCTaskStack:
+    Type: "AWS::CloudFormation::Stack"
+    Condition: DeployTestStage
+    Properties:
+      Parameters:
+        ApplicationName: !Ref ApplicationName
+        Environment: !Ref Environment
+        ReplicationInstanceArn: !Ref ReplicationInstanceArn
+        SourceEndpointArn: !Ref SourceEndpointArn
+        TargetEndpointArn: !Ref TargetEndpointArnCDCFullLoad
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/migration-task/migration-task-cdc-full-load.yml"

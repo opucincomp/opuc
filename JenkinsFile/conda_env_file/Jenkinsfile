@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('Run cond-env') {
+            steps {
+                sh """
+                conda env create -f env/env.yml 
+                conda activate run-py-env
+                cfn-lint check-nag.yml
+                conda deactivate
+                conda remove -n test-py --all -y
+                """
+            }
+        }
+    }
+}
