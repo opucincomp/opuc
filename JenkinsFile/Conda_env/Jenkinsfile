@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('Run Tests') {
-            parallel {
+            //parallel {
                 stage('Run Cfn-lint') {
                     steps {
                         sh ''' cd  ~/anaconda3/etc/profile.d/
@@ -39,7 +39,7 @@ pipeline {
                         sh '''./JenkinsFile/Conda_env/tools/cfn-format -v JenkinsFile/Conda_env/cloudformation/check-nag.yml'''
                     }
                 }
-            }
+            //}
         }
     }
 }
