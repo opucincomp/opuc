@@ -25,7 +25,7 @@ pipeline {
                         source ./conda.sh   
                         cd /root/anaconda3/bin/
                         ./conda env remove --name cfn-nag-test 
-                        ./conda create -n cfn-nag-test python=3.9 pip -y   
+                        ./conda create -n cfn-nag-test python=3.9 pip -y anaconda --force   
                         conda activate cfn-nag-test   
                         conda install -c conda-forge ruby
                         ruby -v
