@@ -4,10 +4,10 @@ pipeline {
         stage('Run cond-env') {
             steps {
                 sh """
-                conda remove -n test-py --all -y
+                conda remove -n run-py-env --all -y
                 conda env create -f JenkinsFile/conda_env_file/env/env.yml 
-                conda run -n test-py python test.py
-                conda remove -n test-py --all -y
+                conda run -n run-py-env python test.py
+                conda remove -n run-py-env --all -y
                 """
             }
         }
