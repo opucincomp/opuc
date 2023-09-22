@@ -4,10 +4,9 @@ pipeline {
         stage('Run cond-env') {
             steps {
                 sh """
+                conda remove -n test-py --all -y
                 conda env create -f JenkinsFile/conda_env_file/env/env.yml 
-                /root/anaconda3/condabin/conda activate run-py-env
-                cfn-lint check-nag.yml
-                conda deactivate
+                conda run -n test-py python test.py
                 conda remove -n test-py --all -y
                 """
             }
